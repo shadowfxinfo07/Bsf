@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff1f5">
+<title>psst, Drisuu… 🐾</title>
+<style>
+:root{--pink:#ff8fab;--rose:#f45f91;--ink:#493344;--soft:#fff7fa;--lav:#d9c8ff;--blue:#c9e9ff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:"Trebuchet MS",ui-rounded,system-ui,sans-serif;background:linear-gradient(145deg,#fff0f5,#f7f0ff 52%,#eef8ff);min-height:100vh;overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+#floaties{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.floaty{position:absolute;bottom:-60px;opacity:.6;animation:up linear infinite}
+.page{position:relative;z-index:1;width:min(760px,92%);margin:auto;padding:20px 0 50px}
+.topline{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#9b7189}
+.sticker{background:#fff9;border:1px solid #fff;padding:7px 11px;border-radius:999px;box-shadow:0 5px 15px #a64d7810}
+.hero{min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px 0}
+.envelope-wrap{position:relative;width:220px;height:170px;margin:10px auto 24px;animation:bob 3.5s ease-in-out infinite}
+.envelope{position:absolute;bottom:8px;left:14px;width:192px;height:125px;border-radius:13px;background:#ffb8ca;box-shadow:0 16px 35px #d96b9630;overflow:hidden}
+.envelope:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,#ffd8e3,#ff9fba);clip-path:polygon(0 0,50% 57%,100% 0,100% 100%,0 100%)}
+.flap{position:absolute;left:14px;top:8px;width:192px;height:110px;background:#ffcfdd;clip-path:polygon(0 0,100% 0,50% 66%);transform-origin:top;animation:flap 4s ease-in-out infinite}
+.letter-peek{position:absolute;left:39px;top:12px;width:142px;height:105px;border-radius:7px;background:#fffdf9;border:1px solid #f4dce4;box-shadow:0 5px 10px #a94b6c15;display:grid;place-items:center;transform:translateY(0);animation:peek 4s ease-in-out infinite}
+.letter-peek span{font-size:2rem;color:#f47a9f}
+.cat{position:absolute;width:75px;height:75px;right:-4px;top:-8px;filter:drop-shadow(0 6px 5px #ab6a7b25);animation:catwiggle 3s ease-in-out infinite}
+.cat.left{left:-20px;right:auto;top:auto;bottom:0;width:65px;animation-delay:.4s}
+h1{font-size:clamp(2.7rem,11vw,5rem);letter-spacing:-.07em;line-height:.98;margin:8px 0 15px;color:#573d55}
+h1 span{color:#f16f9b}
+.intro{max-width:460px;line-height:1.8;color:#916f86;margin:0 auto 23px}
+.kicker{letter-spacing:.15em;text-transform:uppercase;font-size:.72rem;font-weight:800;color:#d65d8a}
+.btn{border:0;border-radius:15px;padding:14px 20px;background:linear-gradient(120deg,#ff91b3,#ffc1d2);color:#5c2f47;font-weight:800;box-shadow:0 9px 22px #e77ba62c;transition:transform .18s}
+.btn:hover{transform:translateY(-2px) rotate(-1deg)}
+.btn.secondary{background:#fff;border:1px solid #f1d8e3;box-shadow:none}
+.tiny{font-size:.78rem;color:#b18ba0;margin-top:12px}
+.letter-area{display:none;opacity:0;transform:translateY(20px);transition:.7s}
+.letter-area.open{opacity:1;transform:translateY(0)}
+.paper{position:relative;background:#fffdf9;border:1px solid #f7dce5;border-radius:9px 22px 22px 22px;padding:clamp(23px,6vw,44px);box-shadow:0 18px 55px #a858771c;overflow:hidden}
+.paper:before{content:"";position:absolute;top:0;left:22px;bottom:0;width:1px;background:#ffd6e2;opacity:.7}
+.paper:after{content:"✿  ✧  ♡  ✧  ✿";position:absolute;right:15px;top:12px;color:#f7bfd1;letter-spacing:.16em;font-size:.8rem}
+.paper-head{display:flex;gap:12px;align-items:center;margin-bottom:24px}
+.seal{width:48px;height:48px;display:grid;place-items:center;background:#ffe3ec;border-radius:16px;font-size:1.5rem;transform:rotate(-7deg)}
+.paper-head strong{font-size:1.05rem}
+.paper-head small{display:block;color:#b18ba0;margin-top:4px}
+.progress{height:5px;background:#fae8ef;border-radius:20px;overflow:hidden;margin-bottom:24px}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,#ff91b3,#c6a5ff);transition:width .45s}
+#words{font-size:1.02rem;line-height:1.95;min-height:180px;white-space:pre-line}
+.reveal{animation:softin .65s both}
+.reveal h2{font-size:1.3rem;margin:0 0 12px;color:#d45d8a}
+.reveal p{margin:0 0 14px}
+.nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:22px}
+.counter{margin-left:auto;font-size:.8rem;color:#b18ba0}
+.catrow{display:flex;justify-content:center;gap:15px;margin:24px 0 6px}
+.catbadge{width:74px;height:74px;background:#fff;border:1px solid #f8dce6;border-radius:22px;display:grid;place-items:center;box-shadow:0 8px 20px #a8587710;animation:bob 3s ease-in-out infinite}
+.catbadge:nth-child(2){animation-delay:.5s}.catbadge:nth-child(3){animation-delay:1s}
+.catbadge svg{width:58px;height:58px}
+.answer{display:none;margin-top:25px;padding-top:22px;border-top:1px dashed #f0c8d7;animation:softin .8s both}
+.answer.show{display:block}
+.answer h2{font-size:1.5rem;line-height:1.3;margin:0 0 10px}
+.answer .sub{line-height:1.8;color:#8c6a80}
+.choices{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
+.choice{padding:14px 15px;text-align:left;border-radius:15px;border:1px solid #f1d4e0;background:#fff;color:#694a5d;transition:.2s}
+.choice:hover{border-color:#f18bae;background:#fff6fa;transform:translateY(-1px)}
+.choice b{display:block;margin-bottom:4px;color:#cc5b86}
+.choice small{color:#a17c92;line-height:1.5;display:block}
+.reply{display:none;margin-top:14px;padding:16px;border-radius:15px;background:#fff0f5;border:1px solid #f8d5e2;line-height:1.8;animation:softin .5s both}
+.reply.show{display:block}
+.footer{text-align:center;font-size:.78rem;line-height:1.8;color:#b18ba0;margin:25px 0 0}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+@keyframes flap{0%,20%,80%,100%{transform:rotateX(0)}40%,65%{transform:rotateX(22deg)}}
+@keyframes peek{0%,20%,80%,100%{transform:translateY(0)}40%,65%{transform:translateY(-13px)}}
+@keyframes catwiggle{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-5deg)}}
+@keyframes up{from{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.65}to{transform:translateY(-115vh) rotate(220deg);opacity:0}}
+@keyframes softin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:600px){.choices{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="floaties" aria-hidden="true"></div>
+<main class="page">
+  <div class="topline"><span>✿ a tiny corner of the internet</span><span class="sticker">for Drisuu 🐱</span></div>
+  <section class="hero" id="hero">
+    <div class="envelope-wrap" aria-label="A cute animated envelope">
+      <svg class="cat" viewBox="0 0 100 100" role="img" aria-label="cute cat sticker">
+        <path d="M18 38 L15 10 Q14 5 22 12 L39 25 Q51 20 63 26 L81 12 Q88 7 86 17 L84 43 Q93 60 78 77 Q64 91 43 85 Q19 81 14 62 Q11 49 18 38Z" fill="#fff9f2" stroke="#e7a0b6" stroke-width="3"/>
+        <path d="M27 48q7-7 13 0M61 48q7-7 13 0" fill="none" stroke="#6b5262" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M47 58q4-5 8 0l-4 4Z" fill="#f18aaa"/><path d="M51 62q-4 7-10 2M51 62q4 7 10 2" fill="none" stroke="#6b5262" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="28" cy="59" r="5" fill="#ffb4c7" opacity=".8"/><circle cx="73" cy="59" r="5" fill="#ffb4c7" opacity=".8"/>
+      </svg>
+      <div class="letter-peek"><span>♡</span></div>
+      <div class="envelope"></div><div class="flap"></div>
+      <svg class="cat left" viewBox="0 0 100 100" role="img" aria-label="sleepy cat sticker">
+        <path d="M18 38 L15 10 Q14 5 22 12 L39 25 Q51 20 63 26 L81 12 Q88 7 86 17 L84 43 Q93 60 78 77 Q64 91 43 85 Q19 81 14 62 Q11 49 18 38Z" fill="#fff" stroke="#d6b7ee" stroke-width="3"/>
+        <path d="M27 48q7-5 13 0M61 48q7-5 13 0" fill="none" stroke="#6b5262" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M47 58q4-5 8 0l-4 4Z" fill="#f18aaa"/><path d="M51 62q-4 7-10 2M51 62q4 7 10 2" fill="none" stroke="#6b5262" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="kicker">open only when you're ready</div>
+    <h1>plzzz…<br><span>Drisuu 👉👈</span></h1>
+    <p class="intro">Aapke liye ek chhota sa letter hai. Thoda awkward hai, thoda emotional bhi… so please hasna mat. 🤧</p>
+    <button class="btn" id="open">Open the letter 💌</button>
+    <div class="tiny">no pressure, bas dil ki baat</div>
+  </section>
+
+  <section class="letter-area" id="letter">
+    <article class="paper">
+      <div class="paper-head"><div class="seal">💌</div><div><strong>Dear Drisuu / Misti ji,</strong><small>from someone who knows he messed up</small></div></div>
+      <div class="progress"><div id="bar"></div></div>
+      <div id="words" aria-live="polite"></div>
+      <div class="nav"><button class="btn" id="next">Aage padhein 👉👈</button><button class="btn secondary" id="all">Sab ek saath dikhao</button><span class="counter" id="counter">1 / 8</span></div>
+      <div class="catrow" aria-label="cute cat stickers">
+        <div class="catbadge"> 
+          <svg viewBox="0 0 100 100"><path d="M18 38L15 12Q14 6 23 14L40 27Q52 21 63 27L81 13Q88 8 86 18L84 43Q94 62 77 79Q61 93 41 84Q18 80 14 62Q11 49 18 38Z" fill="#fff4f7" stroke="#e9a3bd" stroke-width="3"/><path d="M27 49q7-7 13 0M61 49q7-7 13 0" fill="none" stroke="#6d5062" stroke-width="4" stroke-linecap="round"/><path d="M46 59l5 4 5-4" fill="#f18aaa"/><path d="M51 63q-4 7-10 2m10-2q4 7 10 2" fill="none" stroke="#6d5062" stroke-width="2.5" stroke-linecap="round"/><path d="M24 32l-6-8m58 8 7-8" stroke="#e9a3bd" stroke-width="3"/></svg>
+        </div>
+        <div class="catbadge">🐱💗</div><div class="catbadge">👉👈</div>
+      </div>
+      <section class="answer" id="answer">
+        <h2>Ek last baar poochhun, Misti ji? 🥺</h2>
+        <p class="sub">Kya aap mujhe ek last chance dogi — hum dono phir se fresh start karein? Is baar bina pressure, bina expectations, bina late reply ko leke jhagda. Bas aaraam se, dheere-dheere.</p>
+        <p class="sub">Mujhe woh bond miss hota hai jahan hum masti-mazaak kar sakein, apni random baatein share karein, ek dusre ko tease karein… aur agar aap bhi comfortable ho, toh thodi si harmless flirting bhi. 😭💗 But agar aap sirf friendship chahti ho, toh friendship hi — main aapki boundary respect karunga.</p>
+        <p class="sub"><b>Bas please jo sach hai woh keh dena.</b> Agar answer no hai, toh bina guilt ke kehna. Main aapko force nahi karunga, aur aapko mere liye same feelings rakhna zaroori nahi hai.</p>
+        <div class="choices">
+          <button class="choice" data-reply="yes"><b>🌷 Haan, ek chance</b><small>Let’s restart slowly and see how it feels.</small></button>
+          <button class="choice" data-reply="friends"><b>🐾 Sirf friends</b><small>Friends, masti-mazaak, and clear boundaries.</small></button>
+          <button class="choice" data-reply="time"><b>☁️ Mujhe thoda time chahiye</b><small>I need some time to think.</small></button>
+          <button class="choice" data-reply="no"><b>🤍 Nahi, sorry</b><small>I don't want to restart the bond.</small></button>
+          <button onclick="window.open('https://ig.me/m/sachin.s7x','_blank')">
+  💌 Open our Instagram chat
+</button>
+        </div>
+        <div class="reply" id="reply"></div>
+        <p class="sub" style="font-size:.9rem;margin-top:18px">Aap jo bhi choose karo, thank you for reading itna saara. Bhalo thakben, Drisuu. 🤍</p>
+      </section>
+    </article>
+    <div class="footer">Made with feelings, not expectations. ♡<br>Reply only if and when you feel comfortable.</div>
+  </section>
+</main>
+<script>
+const bits=[
+["Okay… pehle sorry. 🥹","Misti ji, I’m genuinely sorry. Maine aapse rude way mein baat ki, specially aapke late replies ko leke. Mujhe gussa ya hurt feel ho raha tha, but uska matlab yeh nahi tha ki main aapse aise baat karun. That was unfair, and I know it."],
+["Main apni galti samajh raha hoon. 🤍","Aapki bhi apni life hai, apna time hai. Har baar late reply ka matlab ignore karna nahi hota. Mujhe baar-baar assume karne ke bajaye calmly samajhna chahiye tha. I’m sorry ki maine aapko uncomfortable feel karaya."],
+["Aur meri feelings wali baat… 👉👈","Haan, maine aapko bataya tha ki I had feelings for you. Woh jhooth nahi tha. But ab mujhe samajh aa raha hai ki meri feelings aapki responsibility nahi hain. Aapko same feel karna hi pade, aisa bilkul nahi."],
+["Sach bolun? I miss you. 🥲","Not in a way ki aapko wapas aana hi pade. Bas woh apna sa bond miss hota hai — random baatein, faltu ki masti, hasi-mazaak, ek dusre ko chidhana… aur bina soche apni baat share kar paana."],
+["Ami jani na ager moto hobe kina…","I know ek sorry se sab instantly fix nahi hota. Shayad pehle jaisa bond wapas aaye, shayad na aaye. Main aapse promise nahi maang raha. Bas agar aapke dil mein thodi si bhi willingness ho, toh hum fresh start try kar sakte hain."],
+["Is baar main better handle karna chahta hoon. 🌷","Late reply pe taunt nahi, unnecessary arguments nahi, aur aapko guilty feel karana nahi. Agar kuch bura lagega toh calmly bolunga. Aapko bhi apni space rakhne ka full right hai."],
+["I want the comfort back, not pressure. 🐱","Woh bond jahan hum normal friends ki tarah baat karein, masti karein, apni baatein share karein. Thoda tease karna, cute si flirting *sirf agar aapko bhi achha lage* — warna simple friendship bhi bilkul okay hai."],
+["Bas… itna hi kehna tha. 💌","Main perfect apology likh ke sab theek karne ka drama nahi karunga. Galti meri thi, so sorry bhi honestly meri taraf se hai. Aapko turant answer dene ki zaroorat nahi. Jab comfortable ho, tab sach bata dena."]
+];
+let i=0;
+const words=document.getElementById('words'),bar=document.getElementById('bar'),counter=document.getElementById('counter'),next=document.getElementById('next'),answer=document.getElementById('answer');
+function addBit(n){
+ const [title,body]=bits[n],el=document.createElement('div');el.className='reveal';
+ const h=document.createElement('h2');h.textContent=title;
+ const p=document.createElement('p');p.textContent=body;
+ el.append(h,p);words.append(el);i=n+1;bar.style.width=(i/bits.length*100)+'%';
+ counter.textContent=i+' / '+bits.length;
+ if(i===bits.length){next.textContent='Letter complete 💗';next.disabled=true;next.style.opacity='.55';answer.classList.add('show');setTimeout(()=>answer.scrollIntoView({behavior:'smooth',block:'nearest'}),350)}
+}
+document.getElementById('open').onclick=()=>{document.getElementById('hero').style.display='none';const sec=document.getElementById('letter');sec.style.display='block';requestAnimationFrame(()=>sec.classList.add('open'));addBit(0);sec.scrollIntoView({behavior:'smooth',block:'start'})};
+next.onclick=()=>{if(i<bits.length)addBit(i)};
+document.getElementById('all').onclick=()=>{while(i<bits.length)addBit(i);answer.classList.add('show')};
+const replies={
+ yes:"Thank you for giving it a chance. 💗 We don't have to fix everything today — let's take it slowly and keep it honest. (This is just a preview message; it doesn't send anything.)",
+ friends:"Thank you for being honest. 🤍 Friendship it is, and I'll respect that — no pressure to flirt or feel anything more. Let's keep things comfortable for both of us.",
+ time:"That's okay. 🌷 Take the time you need; you don't owe me an instant answer. I'll give you space and won't keep pushing.",
+ no:"Thank you for telling me honestly. 🤍 I'll respect your decision and won't try to convince you. I’m sorry for the way I treated you, and I genuinely wish you well."
+};
+document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{
+ const r=document.getElementById('reply');r.textContent=replies[b.dataset.reply];r.classList.add('show');
+ document.querySelectorAll('.choice').forEach(x=>x.style.borderColor='#f1d4e0');b.style.borderColor='#ed82a7';
+}));
+const floaties=document.getElementById('floaties');
+const symbols=['♡','✿','✧','💗','🐾','⋆'];
+for(let n=0;n<18;n++){const s=document.createElement('span');s.className='floaty';s.textContent=symbols[n%symbols.length];s.style.left=(Math.random()*100)+'%';s.style.animationDuration=(10+Math.random()*12)+'s';s.style.animationDelay=(-Math.random()*18)+'s';s.style.fontSize=(14+Math.random()*18)+'px';s.style.color=['#f28eb0','#b9a5ee','#9bcfed'][n%3];floaties.append(s)}
+</script>
+</body>
+</html>

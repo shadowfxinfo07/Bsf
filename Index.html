@@ -76,6 +76,7 @@ h1 span{color:#f16f9b}
 @media(prefers-reduced-motion:reduce){*,*::before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
+<audio id="bgMusic" src="golden.brown.mp3" loop></audio>
 <body>
 <div id="floaties" aria-hidden="true"></div>
 <main class="page">
@@ -157,7 +158,13 @@ function addBit(n){
  counter.textContent=i+' / '+bits.length;
  if(i===bits.length){next.textContent='Letter complete 💗';next.disabled=true;next.style.opacity='.55';answer.classList.add('show');setTimeout(()=>answer.scrollIntoView({behavior:'smooth',block:'nearest'}),350)}
 }
-document.getElementById('open').onclick=()=>{document.getElementById('hero').style.display='none';const sec=document.getElementById('letter');sec.style.display='block';requestAnimationFrame(()=>sec.classList.add('open'));addBit(0);sec.scrollIntoView({behavior:'smooth',block:'start'})};
+document.getElementById('open').onclick=()=>{
+  const music = document.getElementById('bgMusic');
+music.volume = 0.45;
+music.play().catch(() => {
+  console.log("Tap again to start music.");
+});
+document.getElementById('hero').style.display='none';const sec=document.getElementById('letter');sec.style.display='block';requestAnimationFrame(()=>sec.classList.add('open'));addBit(0);sec.scrollIntoView({behavior:'smooth',block:'start'})};
 next.onclick=()=>{if(i<bits.length)addBit(i)};
 document.getElementById('all').onclick=()=>{while(i<bits.length)addBit(i);answer.classList.add('show')};
 const replies={
